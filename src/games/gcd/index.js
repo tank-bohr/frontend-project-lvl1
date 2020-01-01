@@ -1,6 +1,5 @@
 import { cons, car, cdr } from '@hexlet/pairs';
-
-const rand = (max) => Math.floor(Math.random() * Math.floor(max));
+import { random as rand } from 'lodash';
 
 const min = (pair) => {
   const a = car(pair);
