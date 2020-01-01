@@ -6,7 +6,7 @@ const helloMessage = (message) => {
   console.log('');
 };
 
-const gameLoop = (questions, rightAnswer, name) => {
+const gameLoop = (questions, name) => {
   if (questions.length === 0) {
     console.log(`Congratulations, ${name}!`);
     return;
@@ -15,7 +15,7 @@ const gameLoop = (questions, rightAnswer, name) => {
   const [question, ...rest] = questions;
   console.log(`Question: ${question}`);
   const answer = ask('Your answer:');
-  const correct = rightAnswer(question);
+  const correct = question.answer();
 
   if (answer !== correct) {
     console.log(`'${answer}' is wrong answer ;(. Correct answer was '${correct}').`);
@@ -24,7 +24,7 @@ const gameLoop = (questions, rightAnswer, name) => {
   }
 
   console.log('Correct!');
-  gameLoop(rest, rightAnswer, name);
+  gameLoop(rest, name);
 };
 
 export default (game) => {
@@ -33,5 +33,5 @@ export default (game) => {
   const name = askName();
   sayHello(name);
 
-  gameLoop(game.questions, game.rightAnswer, name);
+  gameLoop(game.questions, name);
 };

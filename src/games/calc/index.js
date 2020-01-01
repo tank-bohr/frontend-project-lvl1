@@ -1,8 +1,14 @@
 import { cons, car, cdr } from '@hexlet/pairs';
+import {
+  random,
+  sample,
+  times,
+} from 'lodash';
 
 const MULT = '*';
 const PLUS = '+';
 const MINUS = '-';
+const OPERATIONS = [MULT, PLUS, MINUS];
 
 const makeExpr = (op, left, right) => cons(op, cons(left, right));
 const op = (e) => car(e);
@@ -23,19 +29,14 @@ const evaluate = (e) => {
 
 function makeQ(e) {
   return {
-    expression: e,
+    answer: () => evaluate(e),
     toString: () => toString(e),
   };
 }
 
-const EXPRS = [
-  makeExpr(PLUS, 4, 10),
-  makeExpr(MINUS, 25, 11),
-  makeExpr(MULT, 25, 7),
-];
+const EXPRS = times(3, () => makeExpr(sample(OPERATIONS), random(1, 100), random(1, 100)));
 
 export default {
   hello: 'What is the result of the expression?',
   questions: EXPRS.map(makeQ),
-  rightAnswer: (q) => evaluate(q.expression),
 };

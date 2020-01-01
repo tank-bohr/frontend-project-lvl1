@@ -41,7 +41,7 @@ const hiddenValue = (p, idx) => {
 
 function makeQ(progression) {
   return {
-    progression,
+    answer: () => String(hiddenValue(progression, 1)),
     toString: () => toString(progression, 1, []),
   };
 }
@@ -52,5 +52,4 @@ const PROGRESSIONS = times(1,
 export default {
   hello: 'What number is missing in the progression?',
   questions: PROGRESSIONS.map(makeQ),
-  rightAnswer: (q) => String(hiddenValue(q.progression, 1)),
 };
