@@ -1,10 +1,5 @@
-import {
-  random,
-  times,
-} from 'lodash';
-
-const NUMBERS = times(3, () => random(1, 20));
-const HELLO_MSG = 'Answer "yes" if given number is prime. Otherwise answer "no".';
+import { random } from 'lodash';
+import run from '../engine';
 
 const NOT_FOUND = 'NOT FOUND';
 const isDivisor = (a, b) => a % b === 0;
@@ -16,19 +11,22 @@ const findDivisorOf = (number, current, limit) => {
 };
 const isPrime = (num) => findDivisorOf(num, 2, Math.sqrt(num)) === NOT_FOUND;
 
-function make(number) {
+const generateQuestion = () => {
+  const number = random(1, 20);
   return {
-    toString: () => String(number),
     answer: () => {
       if (isPrime(number)) {
         return 'yes';
       }
       return 'no';
     },
+    toString: () => String(number),
   };
-}
-
-export default {
-  hello: HELLO_MSG,
-  questions: NUMBERS.map(make),
 };
+
+const game = {
+  hello: 'Answer "yes" if given number is prime. Otherwise answer "no".',
+  generateQuestion,
+};
+
+export default () => run(game);

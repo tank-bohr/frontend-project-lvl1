@@ -1,4 +1,4 @@
-import { ask, askName, sayHello } from '..';
+import readlineSync from 'readline-sync';
 
 const helloMessage = (message) => {
   console.log('Welcome to the Brain Games!');
@@ -6,15 +6,14 @@ const helloMessage = (message) => {
   console.log('');
 };
 
-const gameLoop = (questions, name) => {
-  if (questions.length === 0) {
+const gameLoop = (generateQuestion, name, times) => {
+  if (times === 0) {
     console.log(`Congratulations, ${name}!`);
     return;
   }
-
-  const [question, ...rest] = questions;
+  const question = generateQuestion();
   console.log(`Question: ${question}`);
-  const answer = ask('Your answer:');
+  const answer = readlineSync.question('Your answer: ');
   const correct = question.answer();
 
   if (answer !== correct) {
@@ -24,14 +23,14 @@ const gameLoop = (questions, name) => {
   }
 
   console.log('Correct!');
-  gameLoop(rest, name);
+  gameLoop(generateQuestion, name, times - 1);
 };
 
 export default (game) => {
   helloMessage(game.hello);
 
-  const name = askName();
-  sayHello(name);
+  const name = readlineSync.question('May I have your name? ');
+  console.log(`Hello, ${name}!`);
 
-  gameLoop(game.questions, name);
+  gameLoop(game.generateQuestion, name, 3);
 };

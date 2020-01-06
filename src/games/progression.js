@@ -1,10 +1,10 @@
 import { cons, car, cdr } from '@hexlet/pairs';
 import {
   random as rand,
-  times,
   join,
   concat,
 } from 'lodash';
+import run from '../engine';
 
 const COUNT = 10;
 const STEP_MAX = 5;
@@ -39,17 +39,22 @@ const hiddenValue = (p, idx) => {
   return hiddenValue(makeProgression(start + step, step, getCount(p), hidden), idx + 1);
 };
 
-function makeQ(progression) {
+const generateQuestion = () => {
+  const progression = makeProgression(
+    rand(1, START_MAX),
+    rand(1, STEP_MAX),
+    COUNT,
+    rand(1, COUNT),
+  );
   return {
     answer: () => String(hiddenValue(progression, 1)),
     toString: () => toString(progression, 1, []),
   };
-}
-
-const PROGRESSIONS = times(1,
-  () => makeProgression(rand(1, START_MAX), rand(1, STEP_MAX), COUNT, rand(1, COUNT)));
-
-export default {
-  hello: 'What number is missing in the progression?',
-  questions: PROGRESSIONS.map(makeQ),
 };
+
+const game = {
+  hello: 'What number is missing in the progression?',
+  generateQuestion,
+};
+
+export default () => run(game);

@@ -2,8 +2,8 @@ import { cons, car, cdr } from '@hexlet/pairs';
 import {
   random,
   sample,
-  times,
 } from 'lodash';
+import run from '../engine';
 
 const MULT = '*';
 const PLUS = '+';
@@ -27,16 +27,17 @@ const evaluate = (e) => {
   return null;
 };
 
-function makeQ(e) {
+const generateQuestion = () => {
+  const expr = makeExpr(sample(OPERATIONS), random(1, 100), random(1, 100));
   return {
-    answer: () => evaluate(e),
-    toString: () => toString(e),
+    answer: () => evaluate(expr),
+    toString: () => toString(expr),
   };
-}
-
-const EXPRS = times(3, () => makeExpr(sample(OPERATIONS), random(1, 100), random(1, 100)));
-
-export default {
-  hello: 'What is the result of the expression?',
-  questions: EXPRS.map(makeQ),
 };
+
+const game = {
+  hello: 'What is the result of the expression?',
+  generateQuestion,
+};
+
+export default () => run(game);

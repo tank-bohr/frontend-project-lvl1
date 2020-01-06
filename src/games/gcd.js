@@ -1,5 +1,6 @@
 import { cons, car, cdr } from '@hexlet/pairs';
-import { times, random } from 'lodash';
+import { random } from 'lodash';
+import run from '../engine';
 
 const min = (pair) => {
   const a = car(pair);
@@ -19,16 +20,17 @@ const gcd = (a, b, c) => {
 
 const answer = (pair) => gcd(car(pair), cdr(pair), min(pair));
 
-function makeQ(pair) {
+const generateQuestion = () => {
+  const pair = cons(random(50), random(50));
   return {
     answer: () => String(answer(pair)),
     toString: () => toString(pair),
   };
-}
-
-const EXPRS = times(3, () => cons(random(50), random(50)));
-
-export default {
-  hello: 'Find the greatest common divisor of given numbers.',
-  questions: EXPRS.map(makeQ),
 };
+
+const game = {
+  hello: 'Find the greatest common divisor of given numbers.',
+  generateQuestion,
+};
+
+export default () => run(game);
